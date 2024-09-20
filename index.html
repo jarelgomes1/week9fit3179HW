@@ -1,84 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Transport Ridership Visualization</title>
+  <!-- Import Vega, Vega-Lite, and Vega-Embed -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 <body>
-  <div id="vis"/>
+  <h1>Public Transport Ridership in Malaysia</h1>
+  
+  <!-- Container for the Vega-Lite visualization -->
+  <div id="vis"></div>
+
   <script>
-    const spec = {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Proportional symbol map for public transport ridership in Malaysia",
-  "title": {
-    "text": "Homework Week 9: Public Transport Ridership in Malaysia",
-    "font": "Arial",
-    "fontSize": 18,
-    "fontWeight": "bold",
-    "anchor": "start",
-    "color": "#2c3e50"
-  },
-  "width": 600,
-  "height": 400,
-  "projection": {
-    "type": "equirectangular",
-    "scale": 1700,
-    "center": [102.5, 4],
-    "translate": [100, 200]
-  },
-  "layer": [
-    {
-      "data": {"graticule": true},
-      "mark": {"type": "geoshape", "stroke": "lightgray", "strokeWidth": 0.5}
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/jarelgomes1/Public-Transport-Ridership-MY/main/malaysia-detailed-boundary_967.json",
-        "format": {
-          "type": "topojson",
-          "feature": "malaysia-detailed-boundary_967"
-        }
-      },
-      "mark": {"type": "geoshape", "fill": "#dddddd", "stroke": "white"}
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/jarelgomes1/Public-Transport-Ridership-MY/main/cleaned_ridership_data.csv",
-        "format": {"type": "csv"}
-      },
-      "transform": [
-        {"filter": "datum.ridership != null && datum.ridership > 0"}
-      ],
-      "mark": {
-        "type": "circle",
-        "opacity": 0.6,
-        "stroke": "black",
-        "strokeWidth": 1
-      },
-      "encoding": {
-        "longitude": {"field": "Longitude", "type": "quantitative"},
-        "latitude": {"field": "Latitude", "type": "quantitative"},
-        "size": {
-          "field": "ridership",
-          "type": "quantitative",
-          "scale": {"domain": [0, 100000], "range": [0, 200]},
-          "title": "Ridership"
-        },
-        "tooltip": [
-          {"field": "location", "type": "nominal", "title": "Location"},
-          {
-            "field": "ridership",
-            "type": "quantitative",
-            "title": "Daily Ridership"
-          }
-        ]
-      }
-    }
-  ],
-  "config": {}
-};
-    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+    // Load and display the Vega-Lite specification from the external JSON file
+    vegaEmbed('#vis', 'visualization.vl.json').then(result => {
+      // Access the Vega view instance (if needed)
+      console.log(result);
+    }).catch(console.warn);
   </script>
 </body>
 </html>
